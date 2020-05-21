@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Main-Class: nl.arjanvlek.executeonbatterystatuschange.Main
+Created-By: Arjan Vlek
+Name: execute-on-battery-status-change
+

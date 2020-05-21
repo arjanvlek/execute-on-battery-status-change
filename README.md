@@ -46,3 +46,5 @@ Due to the usage of WMIC to check the battery status, the application can only b
 However, the project can be loaded into any IDE which allows developing Java 8 applications, such as Eclipse, IntelliJ IDEA, VS Code or NetBeans. 
 
 There are - except from needing to use Windows - no external dependencies and no package manager is needed. Only a Java 8 JDK is required (Oracle JDK or OpenJDK both work fine).
+
+Launch the app with `--DEBUG` to have it print out the battery information every time it checks it.
