@@ -6,6 +6,7 @@ import java.io.StringReader;
 import java.util.Properties;
 import java.util.Scanner;
 
+import nl.arjanvlek.executeonbatterystatuschange.Logger;
 import nl.arjanvlek.executeonbatterystatuschange.wmimodels.Availability;
 import nl.arjanvlek.executeonbatterystatuschange.wmimodels.BatteryStatus;
 
@@ -22,7 +23,7 @@ public class BatteryStatusChecker {
                 process = Runtime.getRuntime().exec(POWER_STATE_COMMAND);
             }
         } catch (IOException e) {
-            System.err.println(e.getMessage());
+            Logger.error("Error when executing battery status process", e);
             return BATTERY_STATUS_UNKNOWN;
         }
         InputStream inputStream = process.getInputStream();
@@ -30,7 +31,7 @@ public class BatteryStatusChecker {
         scanner.useDelimiter("\\A");
 
         if (!scanner.hasNext()) {
-            System.err.println("No output from power state command");
+            Logger.error("No output from power state command");
             return BATTERY_STATUS_UNKNOWN;
         }
 
@@ -39,14 +40,14 @@ public class BatteryStatusChecker {
         try {
             properties.load(new StringReader(rawOutput));
         } catch (IOException e) {
-            System.err.println("Un-parsable output from power state command: " + rawOutput);
+            Logger.error("Un-parsable output from power state command: " + rawOutput);
         }
 
         int batteryStatusValue;
         try {
             batteryStatusValue = Integer.parseInt(properties.getProperty("BatteryStatus", String.valueOf(BATTERY_STATUS_UNKNOWN.getBatteryStatus().getValue())));
         } catch (NumberFormatException e) {
-            System.err.println("Non-numeric BatteryStatus output from power state command: " + rawOutput);
+            Logger.error("Non-numeric BatteryStatus output from power state command: " + rawOutput);
             return BATTERY_STATUS_UNKNOWN;
         }
 
@@ -54,7 +55,7 @@ public class BatteryStatusChecker {
         try {
             availabilityValue = Integer.parseInt(properties.getProperty("Availability", String.valueOf(BATTERY_STATUS_UNKNOWN.getAvailability().getValue())));
         } catch (NumberFormatException e) {
-            System.err.println("Non-numeric Availability output from power state command: " + rawOutput);
+            Logger.error("Non-numeric Availability output from power state command: " + rawOutput);
             return BATTERY_STATUS_UNKNOWN;
         }
 
