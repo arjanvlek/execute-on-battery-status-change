@@ -31,7 +31,10 @@ public enum BatteryStatus {
     PARTIALLY_CHARGED(11),
 
     /** Used in this program only */
-    INTERNAL_UNKNOWN(-1);
+    INTERNAL_UNKNOWN(-1),
+
+    /** Used in this program only for when crappy Windows tablets report an empty string while discharging between 95%-100%... */
+    INTERNAL_DISCHARGING_AND_HIGH(-2);
 
     private final int value;
 

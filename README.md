@@ -8,7 +8,19 @@ This application requires the Java Runtime Environment, version 1.8.0 or later, 
 Install this before launching the application. This is a one-time process.
 
 ## Download the application
-You can download the latest version [here](https://github.com/arjanvlek/execute-on-battery-status-change/releases/download/1.0.0/execute-on-battery-status-change.jar)
+You can download the latest version [here](https://github.com/arjanvlek/execute-on-battery-status-change/releases/download/1.0.1/execute-on-battery-status-change.jar)
+
+### Release notes
+#### 1.1.0
+- Allow detecting empty WMI power state outputs. 
+
+Some devices report nothing when discharging between 95 and 100%, because recharging is then disabled. 
+This will be mapped to a special power state which allows the program to detect a change to and from this state.
+
+- Log output to files named "output.log" and "error.log" (in current working directory)
+
+#### 1.0.0
+Initial release
 
 ## Creating the shortcut to launch it
 Create a shortcut which has the following command:

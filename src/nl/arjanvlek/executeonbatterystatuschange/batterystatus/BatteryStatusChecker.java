@@ -20,6 +20,7 @@ public class BatteryStatusChecker {
             if (System.getProperty("os.name", "false").equals("Mac OS X")) {
                 process = Runtime.getRuntime().exec("cat /Users/arjan.vlek/Desktop/test-output.txt");
             } else {
+                //process = Runtime.getRuntime().exec("cmd.exe /c \"type C:\\Users\\arjan\\IdeaProjects\\execute-on-battery-status-change\\sample-output-100percent-discharging.txt\"");
                 process = Runtime.getRuntime().exec(POWER_STATE_COMMAND);
             }
         } catch (IOException e) {
@@ -43,20 +44,41 @@ public class BatteryStatusChecker {
             Logger.error("Un-parsable output from power state command: " + rawOutput);
         }
 
-        int batteryStatusValue;
+        int batteryStatusValue = BATTERY_STATUS_UNKNOWN.getBatteryStatus().getValue();
+        boolean emptyBatteryStatus = false;
+        String batteryStatusRawValue = properties.getProperty("BatteryStatus", String.valueOf(BATTERY_STATUS_UNKNOWN.getBatteryStatus().getValue()));
         try {
-            batteryStatusValue = Integer.parseInt(properties.getProperty("BatteryStatus", String.valueOf(BATTERY_STATUS_UNKNOWN.getBatteryStatus().getValue())));
+            if (batteryStatusRawValue != null && !batteryStatusRawValue.equals("")) {
+                batteryStatusValue = Integer.parseInt(batteryStatusRawValue);
+            } else {
+                emptyBatteryStatus = true;
+            }
         } catch (NumberFormatException e) {
             Logger.error("Non-numeric BatteryStatus output from power state command: " + rawOutput);
             return BATTERY_STATUS_UNKNOWN;
         }
 
-        int availabilityValue;
+        int availabilityValue = BATTERY_STATUS_UNKNOWN.getAvailability().getValue();
+        boolean emptyAvailability = false;
+        String availabilityRawValue = properties.getProperty("Availability", String.valueOf(BATTERY_STATUS_UNKNOWN.getAvailability().getValue()));
+
         try {
-            availabilityValue = Integer.parseInt(properties.getProperty("Availability", String.valueOf(BATTERY_STATUS_UNKNOWN.getAvailability().getValue())));
+            if (availabilityRawValue != null && !availabilityRawValue.equals("")) {
+                availabilityValue = Integer.parseInt(availabilityRawValue);
+            } else {
+                emptyAvailability = true;
+            }
         } catch (NumberFormatException e) {
             Logger.error("Non-numeric Availability output from power state command: " + rawOutput);
             return BATTERY_STATUS_UNKNOWN;
+        }
+
+        if (emptyAvailability) {
+            availabilityValue = Availability.INTERNAL_RUNNING_BUT_RECHARGING_NOT_ALLOWED.getValue();
+        }
+
+        if (emptyBatteryStatus) {
+            batteryStatusValue = BatteryStatus.INTERNAL_DISCHARGING_AND_HIGH.getValue();
         }
 
         return new BatteryStatusResult(Availability.forValue(availabilityValue), BatteryStatus.forValue(batteryStatusValue));
