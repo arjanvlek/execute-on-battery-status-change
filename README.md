@@ -8,7 +8,7 @@ This application requires the Java Runtime Environment, version 1.8.0 or later, 
 Install this before launching the application. This is a one-time process.
 
 ## Download the application
-You can download the latest version [here](https://github.com/arjanvlek/execute-on-battery-status-change/releases/download/1.0.1/execute-on-battery-status-change.jar)
+You can download the latest version [here](https://github.com/arjanvlek/execute-on-battery-status-change/releases/download/1.1.1/execute-on-battery-status-change.jar)
 
 ### Release notes
 #### 1.1.1
