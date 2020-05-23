@@ -67,8 +67,8 @@ public class Main {
                 // On subsequent runs, if the batteryStatus or availability changes, execute the specified program.
                 if (!previousBatteryStatus.equals(batteryStatus)) {
                     try {
-                        previousBatteryStatus = batteryStatus;
                         Logger.info("Power state has changed!\n\nFrom:\n" + previousBatteryStatus + "\n\nTo:\n+ " + batteryStatus + "\n\nExecuting the program now...");
+                        previousBatteryStatus = batteryStatus;
                         Runtime.getRuntime().exec(programToExecuteOnStatusChange);
                     } catch (IOException e) {
                         Logger.error("Error executing program on power state change", e);

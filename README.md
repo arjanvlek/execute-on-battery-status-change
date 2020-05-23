@@ -11,6 +11,9 @@ Install this before launching the application. This is a one-time process.
 You can download the latest version [here](https://github.com/arjanvlek/execute-on-battery-status-change/releases/download/1.0.1/execute-on-battery-status-change.jar)
 
 ### Release notes
+#### 1.1.1
+- Fixed log output which takes place on power change always containing the same values for the 'from' and 'to' states.
+
 #### 1.1.0
 - Allow detecting empty WMI power state outputs. 
 
