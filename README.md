@@ -1,6 +1,15 @@
 # Execute on Battery Status Change
 A small Java application which executes another program every time a Windows laptop or tablet is plugged in or unplugged from the charger. Works with Windows 7 or newer.
 
+# Background / When to use
+I've made this program for a DIY project: a digital picture frame. It requires a Windows 10 tablet to turn off its screen 1 minute after unplugging power and to automatically turn on, and stay on, when plugging in again. 
+Turning off after 1 minute is no problem. Windows energy settings support this. But turning on is where the problem lies:
+
+If you don't click the mouse within 10 seconds of powering on, the screen will turn off again, no matter which power options you choose. 
+As soon as the mouse is clicked it will follow the power options again, which you can set to "never turn off" on AC power. 
+
+This is where the little program comes in handy: it detects when the device has been plugged in and executes the mouse click program immediately. 
+
 # How to use
 ## Prerequisites
 This application requires the Java Runtime Environment, version 1.8.0 or later, which can be downloaded from https://www.java.com/nl/download/
