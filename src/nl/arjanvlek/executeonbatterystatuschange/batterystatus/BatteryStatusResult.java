@@ -9,14 +9,16 @@ public class BatteryStatusResult {
 
     private final Availability availability;
     private final BatteryStatus batteryStatus;
+    private final int chargeLevel;
 
-    public BatteryStatusResult(Availability availability, BatteryStatus batteryStatus) {
+    public BatteryStatusResult(Availability availability, BatteryStatus batteryStatus, int chargeLevel) {
         if (availability == null || batteryStatus == null) {
             throw new IllegalArgumentException("availability and batteryStatus cannot be null!");
         }
 
         this.availability = availability;
         this.batteryStatus = batteryStatus;
+        this.chargeLevel = chargeLevel;
     }
 
     public Availability getAvailability() {
@@ -27,11 +29,16 @@ public class BatteryStatusResult {
         return batteryStatus;
     }
 
+    public int getChargeLevel() {
+        return chargeLevel;
+    }
+
     @Override
     public String toString() {
         return "BatteryStatus: {\n"
                 + "  availability: " + availability.toString() + ",\n"
-                + "  batteryStatus: " + batteryStatus.toString() + "\n"
+                + "  availability: " + availability.toString() + ",\n"
+                + "  chargeLevel: " + chargeLevel + "\n"
                 + "}";
     }
 
@@ -43,11 +50,12 @@ public class BatteryStatusResult {
             return false;
         BatteryStatusResult that = (BatteryStatusResult) o;
         return availability == that.availability &&
-                batteryStatus == that.batteryStatus;
+                batteryStatus == that.batteryStatus &&
+                chargeLevel == that.chargeLevel;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(availability, batteryStatus);
+        return Objects.hash(availability, batteryStatus, chargeLevel);
     }
 }

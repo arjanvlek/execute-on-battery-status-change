@@ -5,14 +5,17 @@ import static nl.arjanvlek.executeonbatterystatuschange.batterystatus.BatterySta
 import java.io.*;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
 
 import nl.arjanvlek.executeonbatterystatuschange.batterystatus.BatteryStatusChecker;
+import nl.arjanvlek.executeonbatterystatuschange.batterystatus.BatteryStatusReporter;
 import nl.arjanvlek.executeonbatterystatuschange.batterystatus.BatteryStatusResult;
 
 public class Main {
 
     private static final BatteryStatusResult BATTERY_STATUS_NOT_SET = null;
     private static final AtomicBoolean DEBUG = new AtomicBoolean(false);
+    private static final AtomicLong RUN_COUNT = new AtomicLong(0L);
 
     public static void main(String[] args) {
         Logger.info("Application started with arguments " + String.join(" ", args));
@@ -62,6 +65,12 @@ public class Main {
                     previousBatteryStatus = batteryStatus;
                     Logger.info("Now monitoring for power state changes...");
                     continue;
+                }
+
+                // Every minute, report the battery level to the server (for the status dashboard of all devices).
+                if (RUN_COUNT.getAndAdd(1) % 60 == 0) {
+                    int batteryPercentage = batteryStatus.getChargeLevel();
+                    new BatteryStatusReporter().reportBatteryStatus(batteryPercentage);
                 }
 
                 // On subsequent runs, if the batteryStatus or availability changes, execute the specified program.

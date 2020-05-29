@@ -12,7 +12,7 @@ import nl.arjanvlek.executeonbatterystatuschange.wmimodels.BatteryStatus;
 
 public class BatteryStatusChecker {
     private static final String POWER_STATE_COMMAND = "WMIC Path Win32_Battery Get * /Format:List";
-    public static final BatteryStatusResult BATTERY_STATUS_UNKNOWN = new BatteryStatusResult(Availability.INTERNAL_UNKNOWN, BatteryStatus.INTERNAL_UNKNOWN);
+    public static final BatteryStatusResult BATTERY_STATUS_UNKNOWN = new BatteryStatusResult(Availability.INTERNAL_UNKNOWN, BatteryStatus.INTERNAL_UNKNOWN, -1);
 
     public static BatteryStatusResult getBatteryStatus() {
         Process process;
@@ -81,6 +81,14 @@ public class BatteryStatusChecker {
             batteryStatusValue = BatteryStatus.INTERNAL_DISCHARGING_AND_HIGH.getValue();
         }
 
-        return new BatteryStatusResult(Availability.forValue(availabilityValue), BatteryStatus.forValue(batteryStatusValue));
+        String chargeLevelRawValue = properties.getProperty("EstimatedChargeRemaining", "-1");
+        int chargeLevel = -1;
+        try {
+            chargeLevel = Integer.parseInt(chargeLevelRawValue);
+        } catch (NumberFormatException e) {
+            Logger.error("Non-numeric EstimatedChargeLevel output from power state command: " + rawOutput);
+        }
+
+        return new BatteryStatusResult(Availability.forValue(availabilityValue), BatteryStatus.forValue(batteryStatusValue), chargeLevel);
     }
 }
