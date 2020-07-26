@@ -70,7 +70,8 @@ public class Main {
                 // Every minute, report the battery level to the server (for the status dashboard of all devices).
                 if (RUN_COUNT.getAndAdd(1) % 60 == 0) {
                     int batteryPercentage = batteryStatus.getChargeLevel();
-                    new BatteryStatusReporter().reportBatteryStatus(batteryPercentage);
+                    double batteryVoltage = batteryStatus.getVoltage();
+                    new BatteryStatusReporter().reportBatteryStatus(batteryPercentage, batteryVoltage);
                 }
 
                 // On subsequent runs, if the batteryStatus or availability changes, execute the specified program.

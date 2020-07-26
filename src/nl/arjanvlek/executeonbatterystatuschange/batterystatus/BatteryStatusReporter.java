@@ -13,9 +13,9 @@ public class BatteryStatusReporter {
 
     public static final String BATTERY_STATUS_URL = "http://192.168.178.40:8081/submit-client-status";
 
-    public void reportBatteryStatus(int batteryPercentage) {
+    public void reportBatteryStatus(int batteryPercentage, double voltage) {
         try {
-            String jsonBody = "{\"batteryLevel\": " + batteryPercentage + "}";
+            String jsonBody = "{\"batteryLevel\": " + batteryPercentage + ", \"batteryVoltage\": " + voltage + "}";
             HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(BATTERY_STATUS_URL).openConnection();
             httpURLConnection.setRequestMethod("POST");
             httpURLConnection.setDoOutput(true);
