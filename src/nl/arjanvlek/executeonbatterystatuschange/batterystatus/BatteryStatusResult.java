@@ -58,12 +58,11 @@ public class BatteryStatusResult {
         BatteryStatusResult that = (BatteryStatusResult) o;
         return availability == that.availability &&
                 batteryStatus == that.batteryStatus &&
-                chargeLevel == that.chargeLevel &&
-                voltage == that.voltage;
+                chargeLevel == that.chargeLevel; // Voltage is not checked, because it would trigger the change event too often.
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(availability, batteryStatus, chargeLevel, voltage);
+        return Objects.hash(availability, batteryStatus, chargeLevel);
     }
 }
